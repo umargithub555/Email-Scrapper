@@ -438,7 +438,7 @@ async def extract_distributors(req: DistributorRequest):
             - A specific phone number
             - The source URL where each of these specific facts was found
             Do not report a distributor with only a name and homepage URL — that is an incomplete entry. Treat "I found the company" and "I found their contact details" as two separate steps, and do not skip the second one.
-            4. For the `official` determination, you must be able to point to a specific piece of evidence (e.g., "listed on quakeroats.com/where-to-buy" or "named as authorized distributor on brand's partner page"). If you cannot point to such evidence, mark official = false and note in the source field why (e.g., "general wholesaler, not confirmed as authorized partner").
+            4. For the `official` determination, you must be able to point to a specific piece of evidence (e.g., "listed on {req.brand}.com/where-to-buy" or "named as authorized distributor on brand's partner page"). If you cannot point to such evidence, mark official = false and note in the source field why (e.g., "general wholesaler, not confirmed as authorized partner").
             5. Include both national broad-line corporate suppliers and localized regional trade wholesalers. If multiple entities are discovered, include all of them.
             6. Only if a genuinely diligent enrichment search still turns up nothing for a field, mark that specific field null — but the address, city, state, and at least one of email/phone should be populated for the large majority of distributors you report, since these are all commercial businesses with public contact info.
 
@@ -486,7 +486,7 @@ async def extract_distributors(req: DistributorRequest):
             {research_text}
 
             Follow these rules:
-            - Populate `parent_company`, `official_website`, `brand_contact_page`, `brand_email`, and `brand_phone` from Objective 1/2 of the notes. If the notes say the brand has no separate parent company, set parent_company to null and do not guess.
+            - Populate `parent_company`, `official_website`, `brand_contact_page`, `brand_emails`, and `brand_phone` from Objective 1/2 of the notes. If the notes say the brand has no separate parent company, set parent_company to null and do not guess.
             - Map all identified regional wholesalers, national broad-line suppliers, or certified distributors into the `distributors` array (this is the correct field name in the schema — do not invent a different field name).
             - For each distributor, populate every field the research notes contain — address, city, state, country, email, phone — do not leave a field null if the research notes mention that information anywhere, even in passing.
             - The `source` field is mandatory whenever it's available in the notes: it should contain the specific URL or reference that supports the distributor's contact details and official status. A distributor entry with `source: null` and `official: true` is not acceptable — if no source is given, official must be false.
